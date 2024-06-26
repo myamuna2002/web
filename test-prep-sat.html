@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DSAT Practice Test</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/fontawesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/solid.min.css"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .header_section {
+        border: 2px solid #e8e8e8;
+        border-radius: 0 0 25px 25px;
+        padding: 20px 30px 5px;
+      }
+
+      .mark-review {
+        background-color: #f5f5f7;
+        border-radius: 20px;
+        padding: 10px 15px;
+        position: relative;
+      }
+
+      .option-item {
+        border: 1px solid #e8e8e8;
+        border-radius: 20px;
+        padding: 10px;
+        margin-bottom: 20px;
+        cursor: pointer;
+      }
+
+      .option-item-badge {
+        color: #000;
+        font-weight: 600;
+        padding: 4px 10px;
+        border-radius: 50%;
+        background-color: #e5e3e7;
+        margin-right: 15px;
+      }
+
+      .btn {
+        font-weight: 700;
+        border-radius: 25px;
+        padding: 5px 20px;
+      }
+
+      .btn-outline-dark {
+        color: #000;
+      }
+
+      .text-black {
+        color: #000;
+      }
+      #mark-review-label {
+        position: absolute;
+        left: 0px;
+        border-radius: 50%;
+        background-color: #000;
+        color: #fff;
+        padding: 9px 16px;
+        top: 0px;
+      }
+
+      @media (min-width: 768px) {
+        .question-col {
+          border-right: 1px solid gray;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <div class="header_section">
+                <div class="d-md-flex text-center text-md-left align-items-end">
+                  <div class="w-100 mb-3">
+                    <h5 class="mb-0">Reading and Writing: Module 1</h5>
+                    <div>Directions</div>
+                  </div>
+                  <div class="w-100 mb-3 text-md-center">
+                    <h5 class="mb-0" id="timer">31:33</h5>
+                    <div>
+                      <button
+                        id="hideTimerButton"
+                        type="button"
+                        class="btn btn-sm btn-outline-dark"
+                        onclick="hideTimer()"
+                      >
+                        Hide
+                      </button>
+                    </div>
+                  </div>
+                  <div class="w-100 mb-3 text-md-right">
+                    <button type="button" class="btn btn-sm btn-outline-dark">
+                      Save & Exit
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="question-box mt-5">
+                <div class="row">
+                  <div class="col-md-6 question-col mb-3">
+                    <div id="questionDesc"></div>
+                  </div>
+                  <div class="col-md-6 options-col">
+                    <div class="mark-review text-black">
+                      <span id="mark-review-label">1</span>
+                      <div class="ml-5">
+                        <i class="fa-regular fa-bookmark mr-2"></i> Mark for
+                        Review
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="mt-3" id="questionTitle"></div>
+                      <div class="mt-3" id="questionOptions"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr />
+              <div class="footer mt-4">
+                <div
+                  class="d-md-flex text-center text-md-left align-items-center"
+                >
+                  <div class="w-100 mb-3 text-black">
+                    <strong>DSAT Practice Test 1</strong>
+                  </div>
+                  <div class="w-100 mb-3 text-md-center">
+                    <div class="dropdown">
+                      <button
+                        id="questionsDropdown"
+                        class="btn btn-outline-dark dropdown-toggle"
+                        type="button"
+                        id="dropdownMenuButton"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                      >
+                        Question 1 of 27
+                      </button>
+                      <div
+                        id="questionsDropdownMenu"
+                        class="dropdown-menu"
+                        aria-labelledby="dropdownMenuButton"
+                      ></div>
+                    </div>
+                  </div>
+                  <div class="w-100 mb-3 text-md-right">
+                    <button
+                      id="backButton"
+                      class="btn btn-outline-primary btn-next"
+                      onclick="back()"
+                    >
+                      <i class="fa-solid fa-angle-left"></i> Back
+                    </button>
+                    <button
+                      id="nextButton"
+                      class="btn btn-primary btn-next"
+                      onclick="next()"
+                    >
+                      Next <i class="fa-solid fa-angle-right"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"></script>
+
+    <script>
+      const questions = [
+        {
+          id: 1,
+          questionDesc:
+            "According to education reform advocate William Lee, incorporating hands-on learning in school curricula can _____ student engagement and understanding: he contends that experiential learning encourages active participation and deeper comprehension.",
+          questionTitle:
+            "Which choice completes the text with the most logical and precise word or phrase?",
+          options: {
+            A: "diminish",
+            B: "expand",
+            C: "neglect",
+            D: "restrict",
+          },
+        },
+        {
+          id: 2,
+          questionDesc:
+            "The scientist's groundbreaking research on renewable energy sources has the potential to _____ the global energy crisis by providing sustainable alternatives to fossil fuels.",
+          questionTitle:
+            "Which choice completes the text with the most logical and precise word or phrase?",
+          options: {
+            A: "exacerbate",
+            B: "mitigate",
+            C: "ignore",
+            D: "dismiss",
+          },
+        },
+        {
+          id: 3,
+          questionDesc:
+            "The artist's unique style, characterized by bold colors and abstract forms, continues to _____ critics and admirers alike, challenging conventional notions of beauty and representation.",
+          questionTitle:
+            "Which choice completes the text with the most logical and precise word or phrase?",
+          options: {
+            A: "bore",
+            B: "confuse",
+            C: "captivate",
+            D: "annoy",
+          },
+        },
+        {
+          id: 4,
+          questionDesc:
+            "Despite the company's _____ financial performance last quarter, the CEO remains optimistic about future growth and expansion opportunities.",
+          questionTitle:
+            "Which choice completes the text with the most logical and precise word or phrase?",
+          options: {
+            A: "stellar",
+            B: "lackluster",
+            C: "impressive",
+            D: "exceptional",
+          },
+        },
+        {
+          id: 5,
+          questionDesc:
+            "The novel's protagonist faces a series of moral dilemmas that _____ the boundaries between right and wrong, forcing readers to question their own ethical beliefs.",
+          questionTitle:
+            "Which choice completes the text with the most logical and precise word or phrase?",
+          options: {
+            A: "blur",
+            B: "clarify",
+            C: "ignore",
+            D: "define",
+          },
+        },
+        {
+          id: 6,
+          questionDesc:
+            "To _____ the spread of misinformation, the social media platform has implemented stricter content moderation policies and fact-checking protocols.",
+          questionTitle:
+            "Which choice completes the text with the most logical and precise word or phrase?",
+          options: {
+            A: "promote",
+            B: "amplify",
+            C: "curb",
+            D: "encourage",
+          },
+        },
+        {
+          id: 7,
+          questionDesc:
+            "The new software update aims to _____ the user experience by introducing a more intuitive interface and faster processing speeds.",
+          questionTitle:
+            "Which choice completes the text with the most logical and precise word or phrase?",
+          options: {
+            A: "degrade",
+            B: "enhance",
+            C: "complicate",
+            D: "obscure",
+          },
+        },
+        {
+          id: 8,
+          questionDesc:
+            "Environmentalists argue that preserving biodiversity is essential to maintaining the health of our planet's ecosystems, as each species plays a _____ role in the balance of nature.",
+          questionTitle:
+            "Which choice completes the text with the most logical and precise word or phrase?",
+          options: {
+            A: "minor",
+            B: "peripheral",
+            C: "crucial",
+            D: "insignificant",
+          },
+        },
+        {
+          id: 9,
+          questionDesc:
+            "The historian's lecture on ancient civilizations was so _____ that it left the audience spellbound and eager to learn more about the topic.",
+          questionTitle:
+            "Which choice completes the text with the most logical and precise word or phrase?",
+          options: {
+            A: "dull",
+            B: "engaging",
+            C: "tedious",
+            D: "mundane",
+          },
+        },
+        {
+          id: 10,
+          questionDesc:
+            "In an effort to _____ the negative impacts of climate change, governments worldwide are investing in renewable energy projects and sustainable development initiatives.",
+          questionTitle:
+            "Which choice completes the text with the most logical and precise word or phrase?",
+          options: {
+            A: "exacerbate",
+            B: "mitigate",
+            C: "ignore",
+            D: "worsen",
+          },
+        },
+        {
+          id: 11,
+          questionDesc:
+            "The charity organization has launched a new campaign to _____ awareness about the plight of homeless individuals and raise funds for supportive housing programs.",
+          questionTitle:
+            "Which choice completes the text with the most logical and precise word or phrase?",
+          options: {
+            A: "conceal",
+            B: "suppress",
+            C: "raise",
+            D: "ignore",
+          },
+        },
+        {
+          id: 12,
+          questionDesc:
+            "The detective's keen observation skills and _____ reasoning enabled him to solve the complex case that had baffled other investigators.",
+          questionTitle:
+            "Which choice completes the text with the most logical and precise word or phrase?",
+          options: {
+            A: "flawed",
+            B: "intuitive",
+            C: "hasty",
+            D: "inaccurate",
+          },
+        },
+        {
+          id: 13,
+          questionDesc:
+            "To ensure the success of the project, the manager emphasized the importance of _____ communication and collaboration among team members.",
+          questionTitle:
+            "Which choice completes the text with the most logical and precise word or phrase?",
+          options: {
+            A: "sporadic",
+            B: "minimal",
+            C: "effective",
+            D: "limited",
+          },
+        },
+        {
+          id: 14,
+          questionDesc:
+            "The new policy aims to _____ the gap between the highest and lowest earners in the company by implementing a more equitable pay structure.",
+          questionTitle:
+            "Which choice completes the text with the most logical and precise word or phrase?",
+          options: {
+            A: "widen",
+            B: "narrow",
+            C: "maintain",
+            D: "ignore",
+          },
+        },
+        {
+          id: 15,
+          questionDesc:
+            "The renowned scientist received the prestigious award in recognition of her _____ contributions to the field of genetics and her groundbreaking research on DNA sequencing.",
+          questionTitle:
+            "Which choice completes the text with the most logical and precise word or phrase?",
+          options: {
+            A: "trivial",
+            B: "insignificant",
+            C: "invaluable",
+            D: "minor",
+          },
+        },
+        {
+          id: 16,
+          questionDesc:
+            "The film director's latest work has been praised for its _____ storytelling and innovative use of visual effects, setting a new standard for the industry.",
+          questionTitle:
+            "Which choice completes the text with the most logical and precise word or phrase?",
+          options: {
+            A: "conventional",
+            B: "predictable",
+            C: "mediocre",
+            D: "groundbreaking",
+          },
+        },
+        {
+          id: 17,
+          questionDesc:
+            "By adopting a more _____ approach to problem-solving, the team was able to generate creative solutions and overcome the challenges they faced.",
+          questionTitle:
+            "Which choice completes the text with the most logical and precise word or phrase?",
+          options: {
+            A: "rigid",
+            B: "linear",
+            C: "innovative",
+            D: "restrictive",
+          },
+        },
+        {
+          id: 18,
+          questionDesc:
+            "The author skillfully _____ the themes of love and loss throughout the novel, creating a deeply emotional and thought-provoking narrative.",
+          questionTitle:
+            "Which choice completes the text with the most logical and precise word or phrase?",
+          options: {
+            A: "disregards",
+            B: "weaves",
+            C: "ignores",
+            D: "avoids",
+          },
+        },
+        {
+          id: 19,
+          questionDesc:
+            "The community's efforts to _____ the historic landmark have ensured that future generations can appreciate its cultural and architectural significance.",
+          questionTitle:
+            "Which choice completes the text with the most logical and precise word or phrase?",
+          options: {
+            A: "demolish",
+            B: "preserve",
+            C: "neglect",
+            D: "overlook",
+          },
+        },
+        {
+          id: 20,
+          questionDesc:
+            "The entrepreneur's success can be attributed to her _____ mindset, always seeking out new opportunities and adapting to changing market conditions.",
+          questionTitle:
+            "Which choice completes the text with the most logical and precise word or phrase?",
+          options: {
+            A: "complacent",
+            B: "stagnant",
+            C: "proactive",
+            D: "inflexible",
+          },
+        },
+        {
+          id: 21,
+          questionDesc:
+            "The teacher's innovative methods have _____ student engagement and improved academic performance, demonstrating the impact of creative teaching strategies.",
+          questionTitle:
+            "Which choice completes the text with the most logical and precise word or phrase?",
+          options: {
+            A: "hindered",
+            B: "stifled",
+            C: "fostered",
+            D: "limited",
+          },
+        },
+        {
+          id: 22,
+          questionDesc:
+            "The government has introduced new regulations to _____ the environmental impact of industrial activities and promote sustainable practices.",
+          questionTitle:
+            "Which choice completes the text with the most logical and precise word or phrase?",
+          options: {
+            A: "amplify",
+            B: "mitigate",
+            C: "exacerbate",
+            D: "ignore",
+          },
+        },
+        {
+          id: 23,
+          questionDesc:
+            "The scientist's research has _____ our understanding of climate change, providing valuable insights into its causes and effects.",
+          questionTitle:
+            "Which choice completes the text with the most logical and precise word or phrase?",
+          options: {
+            A: "obscured",
+            B: "confused",
+            C: "enhanced",
+            D: "diminished",
+          },
+        },
+        {
+          id: 24,
+          questionDesc:
+            "The athlete's rigorous training regimen and unwavering dedication have _____ her success in the competitive world of professional sports.",
+          questionTitle:
+            "Which choice completes the text with the most logical and precise word or phrase?",
+          options: {
+            A: "undermined",
+            B: "prevented",
+            C: "ensured",
+            D: "limited",
+          },
+        },
+        {
+          id: 25,
+          questionDesc:
+            "The architect's design for the new building _____ modern aesthetics with traditional elements, creating a unique and visually appealing structure.",
+          questionTitle:
+            "Which choice completes the text with the most logical and precise word or phrase?",
+          options: {
+            A: "clashes",
+            B: "ignores",
+            C: "integrates",
+            D: "separates",
+          },
+        },
+        {
+          id: 26,
+          questionDesc:
+            "The new marketing campaign aims to _____ brand awareness and attract a broader audience to the company's products and services.",
+          questionTitle:
+            "Which choice completes the text with the most logical and precise word or phrase?",
+          options: {
+            A: "reduce",
+            B: "diminish",
+            C: "enhance",
+            D: "restrict",
+          },
+        },
+        {
+          id: 27,
+          questionDesc:
+            "The environmental conservation project seeks to _____ the natural habitat of endangered species, ensuring their survival for future generations.",
+          questionTitle:
+            "Which choice completes the text with the most logical and precise word or phrase?",
+          options: {
+            A: "destroy",
+            B: "protect",
+            C: "neglect",
+            D: "exploit",
+          },
+        },
+        {
+          id: 28,
+          questionDesc:
+            "The economic policy reforms were designed to _____ economic growth and stability, addressing key issues such as inflation and unemployment.",
+          questionTitle:
+            "Which choice completes the text with the most logical and precise word or phrase?",
+          options: {
+            A: "hinder",
+            B: "stifle",
+            C: "promote",
+            D: "undermine",
+          },
+        },
+        {
+          id: 29,
+          questionDesc:
+            "The new software application aims to _____ the efficiency of business operations by automating repetitive tasks and streamlining workflows.",
+          questionTitle:
+            "Which choice completes the text with the most logical and precise word or phrase?",
+          options: {
+            A: "reduce",
+            B: "impede",
+            C: "enhance",
+            D: "complicate",
+          },
+        },
+        {
+          id: 30,
+          questionDesc:
+            "The artist's latest exhibition has received widespread acclaim for its _____ exploration of contemporary social issues and innovative use of mixed media.",
+          questionTitle:
+            "Which choice completes the text with the most logical and precise word or phrase?",
+          options: {
+            A: "shallow",
+            B: "superficial",
+            C: "profound",
+            D: "simplistic",
+          },
+        },
+      ];
+
+      let currentQuestionID = 1;
+      const urlParams = new URLSearchParams(window.location.search);
+      const questionId = urlParams.get("questionId");
+      if (questionId) {
+        currentQuestionID = Number(questionId);
+      }
+
+      let currentQuestion = questions.find(
+        (item) => item.id === currentQuestionID
+      );
+      if (!currentQuestion) {
+        currentQuestion = questions[0];
+      }
+
+      document.getElementById(
+        "questionsDropdown"
+      ).innerHTML = `Question ${currentQuestionID} of ${questions.length}`;
+      document.getElementById("mark-review-label").innerHTML =
+        currentQuestionID;
+
+      document.getElementById("questionDesc").innerHTML =
+        currentQuestion.questionDesc;
+      document.getElementById("questionTitle").innerHTML =
+        currentQuestion.questionTitle;
+      let options = "";
+      Object.entries(currentQuestion.options).forEach(([key, value]) => {
+        options += `<div class="option-item"><span class="option-item-badge">${key}</span>${value}</div>`;
+      });
+      document.getElementById("questionOptions").innerHTML = options;
+
+      let questionsDropdownMenuContent = "";
+      Object.entries(questions).forEach(([key, item]) => {
+        questionsDropdownMenuContent += `<a class="dropdown-item" href="./test-prep-sat.html?questionId=${item.id}">${item.id}</a>`;
+      });
+      document.getElementById("questionsDropdownMenu").innerHTML =
+        questionsDropdownMenuContent;
+
+      if (currentQuestionID === 1) {
+        document.getElementById("backButton").classList.add("d-none");
+      } else {
+        document.getElementById("backButton").classList.remove("d-none");
+      }
+      if (questions.length === currentQuestionID) {
+        document.getElementById("nextButton").classList.add("d-none");
+      } else {
+        document.getElementById("nextButton").classList.remove("d-none");
+      }
+
+      function back() {
+        window.location.href = `./test-prep-sat.html?questionId=${
+          currentQuestionID - 1
+        }`;
+      }
+      function next() {
+        window.location.href = `./test-prep-sat.html?questionId=${
+          currentQuestionID + 1
+        }`;
+      }
+      function hideTimer() {
+        var content = document.getElementById("timer");
+        var button = document.getElementById("hideTimerButton");
+        if (content.style.display === "none") {
+          content.style.display = "block";
+          button.textContent = "Hide";
+        } else {
+          content.style.display = "none";
+          button.textContent = "Show";
+        }
+      }
+    </script>
+  </body>
+</html>

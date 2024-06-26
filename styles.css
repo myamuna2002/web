@@ -1,0 +1,33 @@
+/* Custom styles */
+body {
+  background-color: #f6f6fe;
+}
+
+.btn-primary {
+  background-color: #3d44d2;
+  padding: 6px 25px;
+}
+.badge-gray {
+  background-color: #e7ebfe;
+}
+.icon_circle {
+  border: 1px solid #e7ebfe;
+  border-radius: 50%;
+  padding: 5px;
+}
+.my_progress_section {
+  position: relative;
+}
+.my_progress_section i {
+  position: absolute;
+  left: 1px;
+}
+.my_progress_section .badge {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
